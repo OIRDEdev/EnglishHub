@@ -1,8 +1,10 @@
-import { createRouter, createWebHistory } from "vue-router"; // Mudança para createWebHistory
+import { createRouter, createWebHistory } from "vue-router"; 
 import api from "@/utils/axios";
 import LoginPage from "@/components/LoginPage/LoginPage.vue";
 import MainPage from "@/components/MainPage/MainPage.vue";
 import SignupPage from "@/components/RgisterPage/SignupPage.vue";
+import HistoriaPage from "@/components/HistoriaPage/HistoriaPage.vue";
+
 // Função de autenticação
 const isAuthenticated = async function() {
     try {
@@ -18,6 +20,7 @@ const routes = [
     { path: '/', name: "/",component: LoginPage },
     { path: '/main/account', name: "MainAccount", component: MainPage }, 
     { path: '/register/signUp', name:'Signup', component: SignupPage},
+    { path: '/historia/:level/:title/:id', name: 'Historia', component: HistoriaPage, props: true},
 ];
 
 const router = createRouter({

@@ -12,7 +12,7 @@
         <form @submit.prevent="loginUser">
           <div class="form-Email">
             <label for="username">E-mail</label>
-            <input type="text" v-model="username" id="username"  placeholder="Digite seu Email" autocomplete="off"   required>
+            <input type="text" v-model="username" id="username"  placeholder="Digite seu Username" autocomplete="off"   required>
           </div>
           <div class="form-Password">
             <label for="password">Senha</label>

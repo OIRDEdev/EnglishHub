@@ -9,13 +9,14 @@ dotenv.configDotenv();
 const SECRET = process.env.SECRET || 'defaultsecret'; 
 const nodeEnv = process.env.NODE_ENV
 
-const AuthenticationLogin = async (req: Request, res: Response): Promise<Response> => {
+const AuthenticationLogin: RequestHandler = async (req: Request, res: Response): Promise<void> => {
     console.log(req.body);
     const { username, password } = req.body;
     
 
     if (!username || !password) {
-        return res.status(400).send('Usuário e senha são obrigatórios');
+        res.status(400).send('Usuário e senha são obrigatórios');
+        return 
     }
 
     try {
@@ -23,13 +24,15 @@ const AuthenticationLogin = async (req: Request, res: Response): Promise<Respons
         const pass = await getDatadforlogin(username);
 
         if (!pass) {
-            return res.status(400).send('Usuário não encontrado');
+            res.status(400).send('Usuário não encontrado');
+            return 
         }
 
 
         const isPasswordValid = await bcrypt.compare(password, pass);
         if (!isPasswordValid) {
-            return res.status(400).send('Usuário ou senha inválidos');
+            res.status(400).send('Usuário ou senha inválidos');
+            return 
         }
 
 
@@ -43,32 +46,37 @@ const AuthenticationLogin = async (req: Request, res: Response): Promise<Respons
         });
 
 
-        return res.json({message: "Login bem Sucedido!"});
+        res.json({message: "Login bem Sucedido!"});
+        return 
 
     } catch (error) {
         console.error(error);
-        return res.status(500).send('Erro ao realizar login');
+        res.status(500).send('Erro ao realizar login');
+        return 
     }
 };
 
 
-const AuthenticationSignUp = async (req: Request, res: Response): Promise<Response> => {
+const AuthenticationSignUp: RequestHandler = async (req: Request, res: Response): Promise<void> => {
     console.log(req.body)
     const { username, password, Email } = req.body;
 
     if (!username || !password) {
-        return res.status(400).send('Usuário e senha são obrigatórios');
+        res.status(400).send('Usuário e senha são obrigatórios');
+        return 
     }
 
     try {
        
         const hashPass = await bcrypt.hash(password, 10);
         await AddINbase(username, hashPass, Email);
-        return res.status(200).json({ message: 'Usuário criado com sucesso' });
+        res.status(200).json({ message: 'Usuário criado com sucesso' });
+        return 
 
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ message: 'Erro ao criar usuário' });
+        res.status(500).json({ message: 'Erro ao criar usuário' });
+        return 
     }
 };
 

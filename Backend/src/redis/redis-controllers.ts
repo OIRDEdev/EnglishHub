@@ -16,7 +16,7 @@ const initializeRedis = async () => {
     }
 };
 
-initializeRedis();
+//initializeRedis();
 
 export const setValue = async (key: string, value: string): Promise<void> =>{
     await redisClient.set(key, value);

@@ -1,42 +1,324 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-.main-container{
-    width: 100vw;
+.container {
+    padding: 24px;
+    background-color: #f3f4f6;
+    width: 95vw;
     height: 100vh;
+    display: grid;
+    grid-template-rows: 100px;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    padding: 16px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+
+  .header h1 {
+    color: #2563eb;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+  
+  .stats {
     display: flex;
     flex-direction: column;
+    align-items: flex-end;
+  }
+  
+  .word-count {
+    font-size: 20px;
+    font-weight: bold;
+    color: #2563eb;
+  }
+  
+  .word-label {
+    font-size: 12px;
+    color: #6b7280;
+  }
+  
+  .user-profile {
+    display: flex;
     align-items: center;
-}
-
-.nav-bar-container{
-    width: 80%;
-    background-color: black;
-    height: 6%;
-}
-
-.main-Account{
+    gap: 16px;
+  }
+  
+  .progress-info {
+    font-size: 14px;
+    color: #059669;
+    background: #ecfdf5;
+    padding: 4px 8px;
+    border-radius: 6px;
+  }
+  
+  .profile-section {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f8fafc;
+    padding: 6px 12px;
+    border-radius: 24px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    position: relative;
+  }
+  
+  .profile-section:hover {
+    background: #f1f5f9;
+  }
+  
+  .avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #e2e8f0;
+  }
+  
+  .avatar img {
     width: 100%;
-    height: 90%;
-    background-color: blue;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .username {
+    font-weight: 500;
+    color: #1e293b;
+  }
+  
+  .dropdown-toggle {
+    padding: 4px;
+    color: #64748b;
+    transition: transform 0.2s;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+  
+  .dropdown-toggle:hover {
+    color: #475569;
+  }
+  
+  .dropdown-toggle.active {
+    transform: rotate(180deg);
+  }
+  
+  .library {
+    margin-top: 24px;
+    background-color: white;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .levels {
+    display: flex;
+    gap: 16px;
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+    height: 6%;
+  }
+  
+  .levels button {
+    color: #ffffff;
+    font-weight: bold;
+    border-radius: 10px;
+    width: 5%;
+    background-color: black;
+    transition: transform 0.2s ease-in-out;
+  }
+
+  .levels button:hover {
+    background-color: #3d1414;
+    transform: scale(1.2);
+  }
+
+  .levels .disabled {
+    color: #9ca3af;
+  }
+  
+  .book-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background-color: #f9fafb;
+    border-radius: 8px;
+    margin-bottom: 16px;
+  }
+  
+  .book-info {
+    display: flex;
+    align-items: center;
+  }
+  
+  .book-level {
+    width: 64px;
+    height: 64px;
+    background-color: #93c5fd;
+    border-radius: 8px;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
-}
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    margin-right: 10px;
+  }
+  
+  .book-info h3 {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .book-info p {
+    color: #6b7280;
+    font-size: 14px;
+  }
+  
+  .book-button {
+    background-color: #2563eb;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+  }
+  
+  .book-button:hover {
+    opacity: 0.8;
+  }
 
-.container-level{
-    background-color: brown;
-    height: 5%;
-    width: 60%;
-}
+  .books-carousel {
+    display: flex;
+    gap: 24px;
+    overflow-x: auto;
+    padding: 20px 0;
+    scroll-behavior: smooth;
+  }
+  
+  .books-carousel::-webkit-scrollbar {
+    height: 8px;
+  }
+  
+  .books-carousel::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+  }
+  
+  .books-carousel::-webkit-scrollbar-thumb {
+    background: #2563eb;
+    border-radius: 4px;
+  }
+  
+  .book-card {
+    min-width: 280px;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+  }
+  
+  .book-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .book-cover {
+    height: 200px;
+    background: #e5e7eb;
+    margin-bottom: 16px;
+  }
+  
+  .book-details {
+    padding: 16px;
+  }
+  
+  .book-details h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+  
+  .book-level-badge {
+    display: inline-block;
+    background: #93c5fd;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+  
+  .book-details p {
+    color: #6b7280;
+    font-size: 14px;
+    margin-bottom: 16px;
+    line-height: 1.4;
+  }
+  
+  .book-button {
+    width: 100%;
+    background-color: #2563eb;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+  }
+  
+  .book-button:hover {
+    background-color: #1d4ed8;
+  }
 
-.container-carroseel-historias{
-    background-color: chocolate;
-    height: 45%;
-    width: 50%;
-}
+  .dropdown-menu {
+    position: absolute;
+    top: 120%;
+    right: 0;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    min-width: 200px;
+    z-index: 50;
+  }
 
+  .dropdown-items {
+    padding: 8px 0;
+  }
+
+  .dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 16px;
+    color: #4b5563;
+    text-decoration: none;
+    transition: background-color 0.2s;
+  }
+
+  .dropdown-item:hover {
+    background-color: #f3f4f6;
+  }
+
+  .dropdown-item i {
+    font-size: 16px;
+    width: 20px;
+  }
+
+  .dropdown-item.logout {
+    color: #ef4444;
+    border-top: 1px solid #e5e7eb;
+    margin-top: 8px;
+    padding-top: 12px;
+  }
+
+  .dropdown-item.logout:hover {
+    background-color: #fef2f2;
+  }
