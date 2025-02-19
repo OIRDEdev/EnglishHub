@@ -71,19 +71,30 @@
 </template>
 
 <script>
+import { gethistoriaData }  from '@/servicesJS/HistoriaHandle';
+
 export default {
   data() {
     return {
       currentLevel: 1,
       isDropdownOpen: false,
       books: [
-        { id: 1, title: "The Boy Who Could Not Tell The Truth", description: "Once upon a time, a boy lived in a beautiful blue house...", level: 1, buttonText: "Continuar" },
-        { id: 2, title: "The Happy Place", description: "Once upon a time, there were two friends...", level: 1, buttonText: "Iniciar Leitura" },
-        { id: 3, title: "The Midwife", description: "Many years ago, in a country very far away...", level: 2, buttonText: "Ler Novamente" }
+       // { id: 1, title: "The Boy Who Could Not Tell The Truth", description: "Once upon a time, a boy lived in a beautiful blue house...", level: 1, buttonText: "Continuar" },
+        //{ id: 2, title: "The Happy Place", description: "Once upon a time, there were two friends...", level: 1, buttonText: "Iniciar Leitura" },
+       // { id: 3, title: "The Midwife", description: "Many years ago, in a country very far away...", level: 2, buttonText: "Ler Novamente" }
       ]
     };
   },
   methods: {
+    async fetchBooks() {
+      try {
+        this.books = await gethistoriaData(); 
+        console.log(this.books);
+      } catch (error) {
+        console.error("Erro ao buscar dados da história:", error);
+      }
+    },
+
     setLevel(level) {
       if (level !== 6) {
         this.currentLevel = level;
@@ -102,13 +113,14 @@ export default {
       return this.books.filter(book => book.level === this.currentLevel);
     }
   },
-  mounted() {
-    // Close dropdown when clicking outside
+  mounted: async function() {
     document.addEventListener('click', (e) => {
       if (!e.target.closest('.profile-section')) {
         this.isDropdownOpen = false;
       }
     });
+
+    await this.fetchBooks();
   }
 };
 </script>
