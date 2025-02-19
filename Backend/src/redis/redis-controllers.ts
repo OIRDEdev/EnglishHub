@@ -6,7 +6,7 @@ redisClient.on('error', (err) =>{
 });
 
 
-const initializeRedis = async () => {
+export const initializeRedis = async () => {
     try {
         await redisClient.connect();
         console.log('Cliente Redis conectado.');
@@ -16,7 +16,6 @@ const initializeRedis = async () => {
     }
 };
 
-//initializeRedis();
 
 export const setValue = async (key: string, value: string): Promise<void> =>{
     await redisClient.set(key, value);
@@ -38,3 +37,10 @@ export const checkRedisHealth = async (): Promise<boolean> => {
         return false
     }
 }
+
+export default {
+    initializeRedis,
+    setValue,
+    getValue,
+    checkRedisHealth
+};
