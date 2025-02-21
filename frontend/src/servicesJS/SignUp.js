@@ -2,7 +2,7 @@ import axios from "axios";
 
 async function signupfunction(email, username, password){
     try{
-        const response = await axios.post('/auth/signUp',  {
+        const response = await axios.post('/api/auth/signUp',  {
             email, username, password
         });
         return response;

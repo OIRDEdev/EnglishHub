@@ -3,7 +3,7 @@ import axios from "axios";
 
 async function loginUser(username, password) {
     try{
-        const response = await axios.post('auth/login', {
+        const response = await axios.post('/api/auth/login', {
             username, password
         },{withCredentials: true});
 

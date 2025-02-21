@@ -2,7 +2,7 @@ import axios from "axios";
 
 async function getHistoria(title, id){
     try{
-        const response = await axios.get(`/auth/historia`, {
+        const response = await axios.get(`/api/historia`, {
             params: { title, id }
         });
         return response.data;
@@ -14,7 +14,7 @@ async function getHistoria(title, id){
 
 async function gethistoriaData(level){
     try{
-        const response = await axios.get('/auth/historia/data', {
+        const response = await axios.get('/api/historia/data', {
             params: {level}               
         });
         return response.data;

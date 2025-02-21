@@ -8,7 +8,7 @@ import HistoriaPage from "@/components/HistoriaPage/HistoriaPage.vue";
 // Função de autenticação
 const isAuthenticated = async function() {
     try {
-        const response = await api.get('/auth/check');
+        const response = await api.get('/api/auth/check');
         console.log(response.data.authenticated);
         return response.data.authenticated; 
     } catch (error) {
