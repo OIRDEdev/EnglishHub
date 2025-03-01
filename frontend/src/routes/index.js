@@ -20,7 +20,7 @@ const routes = [
     { path: '/', name: "/",component: LoginPage },
     { path: '/main/account', name: "MainAccount", component: MainPage }, 
     { path: '/register/signUp', name:'Signup', component: SignupPage},
-    { path: '/historia/:level/:title/:id', name: 'Historia', component: HistoriaPage, props: true},
+    { path: '/historia/:level/:title/:id', name: 'Historia', component: HistoriaPage, props: true, /*meta: { requiresAuth: true }*/},
 ];
 
 const router = createRouter({

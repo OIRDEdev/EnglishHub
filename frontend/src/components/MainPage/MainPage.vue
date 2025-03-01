@@ -1,68 +1,93 @@
 <template>
-  <div class="container">
-    <header class="header">
-      <h1>Graded Readers</h1>
-      <div class="user-info">
-        <div class="stats">
-          <span class="word-count">533</span>
-          <span class="word-label">Palavras Únicas</span>
-        </div>
-        <div class="user-profile">
-          <span class="progress-info">2/30</span>
-          <div class="profile-section">
-            <div class="avatar">
-              <!-- Default avatar if no image -->
-              <img src="@/assets/default-avatar.png" alt="Profile" />
-            </div>
-            <span class="username">Edrio</span>
-            <button class="dropdown-toggle" @click="toggleDropdown">
-              <i class="fas fa-chevron-down" :class="{ 'active': isDropdownOpen }"></i>
-            </button>
-            
-            <!-- Dropdown Menu -->
-            <div v-if="isDropdownOpen" class="dropdown-menu">
-              <div class="dropdown-items">
-                <!-- Add your menu items here -->
-                <a href="#" class="dropdown-item">
-                  <i class="fas fa-user"></i>
-                  Perfil
-                </a>
-                <a href="#" class="dropdown-item">
-                  <i class="fas fa-cog"></i>
-                  Configurações
-                </a>
-                <a href="#" class="dropdown-item logout">
-                  <i class="fas fa-sign-out-alt"></i>
-                  Sair
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
+  <div class="page-container">
+    <!-- Hamburger Menu for Mobile -->
+    <button class="hamburger-menu" @click="toggleMobileMenu">
+      <i class="fas fa-bars"></i>
+    </button>
 
-    <div class="library">
-      <h2>Biblioteca</h2>
-      <div class="levels">
-        <button 
-        v-for="level in 6" 
-        :key="level"
-        :class="{ active: currentLevel === level, disabled: level === 6 }"
-        @click="setLevel(level)"
-      >
-        Nível {{ level }}
+    <!-- Sidebar -->
+    <div class="sidebar" :class="{ collapsed: isSidebarCollapsed }">
+      <div class="profile-section">
+        <div class="profile-pic">
+          <img :src="userProfilePic || '@/assets/default-avatar.png'" alt="Profile" />
+        </div>
+        <span class="username" v-if="!isSidebarCollapsed">{{ username }}</span>
+      </div>
+
+      <button class="toggle-sidebar" @click="toggleSidebar">
+        <i class="fas fa-chevron-left"></i>
       </button>
+
+      <nav class="sidebar-menu">
+        <a href="#" class="menu-item">
+          <i class="fas fa-trophy"></i>
+          <span class="menu-text">Conquistas</span>
+        </a>
+        <a href="#" class="menu-item">
+          <i class="fas fa-users"></i>
+          <span class="menu-text">Amigos</span>
+        </a>
+        <a href="#" class="menu-item">
+          <i class="fas fa-layer-group"></i>
+          <span class="menu-text">Grupos</span>
+        </a>
+        <a href="#" class="menu-item">
+          <i class="fas fa-moon"></i>
+          <span class="menu-text">Modo Noturno</span>
+        </a>
+        <a href="#" class="menu-item">
+          <i class="fas fa-cog"></i>
+          <span class="menu-text">Configurações</span>
+        </a>
+        <a href="#" class="menu-item logout">
+          <i class="fas fa-sign-out-alt"></i>
+          <span class="menu-text">Sair</span>
+        </a>
+      </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" :class="{ expanded: isSidebarCollapsed }">
+      <!-- Filter Section -->
+      <div class="filter-container">
+        <div class="level-filters">
+          <button 
+            v-for="level in levels" 
+            :key="level"
+            class="filter-button"
+            :class="{ active: currentLevel === level }"
+            @click="setLevel(level)"
+          >
+            Nível {{ level }}
+          </button>
+        </div>
+
+        <div class="category-filters">
+          <button 
+            v-for="category in categories" 
+            :key="category"
+            class="filter-button"
+            :class="{ active: currentCategory === category }"
+            @click="setCategory(category)"
+          >
+            {{ category }}
+          </button>
+        </div>
       </div>
 
-      <div class="books-carousel">
-        <div v-for="book in filteredBooks" :key="book.id" class="book-card">
-          <div class="book-cover"></div>
-          <div class="book-details">
-            <h3>{{ book.title }}</h3>
-            <div class="book-level-badge">Nível {{ book.level }}</div>
-            <p>{{ book.description }}</p>
-            <button class="book-button" @click="startReading(book)">{{ book.buttonText }}</button>
+      <!-- Stories Grid -->
+      <div class="stories-grid">
+        <div v-for="story in filteredStories" :key="story.id" class="story-card">
+          <div class="story-image">
+            <img :src="coverImage" :alt="story.title" />
+          </div>
+          <div class="story-content">
+            <h3>{{ story.title }}</h3>
+            <span class="level-badge">Nível {{ story.level }}</span>
+            <p>{{ story.description }}</p>
+            <button class="book-button" @click="startReading(story)">
+              {{ story.buttonText }}
+            </button>
           </div>
         </div>
       </div>
@@ -71,58 +96,61 @@
 </template>
 
 <script>
+import { initializeAnimations } from './js/animation.js';
 import { gethistoriaData }  from '@/servicesJS/HistoriaHandle';
 
 export default {
   data() {
     return {
+      coverImage: "https://m.media-amazon.com/images/I/81Cg3q0W0ZL._UF894,1000_QL80_.jpg",
+      isSidebarCollapsed: false,
+      username: 'User Name',
+      userProfilePic: null,
       currentLevel: 1,
-      isDropdownOpen: false,
-      books: [
-       // { id: 1, title: "The Boy Who Could Not Tell The Truth", description: "Once upon a time, a boy lived in a beautiful blue house...", level: 1, buttonText: "Continuar" },
-        //{ id: 2, title: "The Happy Place", description: "Once upon a time, there were two friends...", level: 1, buttonText: "Iniciar Leitura" },
-       // { id: 3, title: "The Midwife", description: "Many years ago, in a country very far away...", level: 2, buttonText: "Ler Novamente" }
-      ]
+      currentCategory: 'Todos',
+      levels: [1, 2, 3, 50, 53],
+      categories: ['Todos', 'Ação', 'Aventura', 'Mistério'],
+      stories: []
     };
+  },
+  mounted: async function() {
+    const { toggleSidebar, toggleMobileMenu, initializeFilterAnimations } = initializeAnimations();
+    this.toggleSidebar = toggleSidebar;
+    this.toggleMobileMenu = toggleMobileMenu;
+    initializeFilterAnimations();
+    await this.fetchBooks();
   },
   methods: {
     async fetchBooks() {
       try {
-        this.books = await gethistoriaData(); 
-        console.log(this.books);
+        this.stories = await gethistoriaData(); 
+        console.log(this.stories);
       } catch (error) {
         console.error("Erro ao buscar dados da história:", error);
       }
     },
-
     setLevel(level) {
-      if (level !== 6) {
-        this.currentLevel = level;
-      }
+      this.currentLevel = level;
     },
-    startReading(book) {
-      const formatedTitle = book.title.toLowerCase().replace(/ /g, '-');
-      this.$router.push(`/historia/${book.level}/${formatedTitle}/${book.id}`);
+    setCategory(category) {
+      this.currentCategory = category;
     },
-    toggleDropdown() {
-      this.isDropdownOpen = !this.isDropdownOpen;
+    startReading(story) {
+      const formatedTitle = story.title.toLowerCase().replace(/ /g, '-');
+      this.$router.push(`/historia/${story.level}/${formatedTitle}/${story.id}`);
     }
   },
   computed: {
-    filteredBooks() {
-      return this.books.filter(book => book.level === this.currentLevel);
+    filteredStories() {
+      return this.stories.filter(story => {
+        const levelMatch = this.currentLevel === 'Todos' || story.level === this.currentLevel;
+        const categoryMatch = this.currentCategory === 'Todos' || story.category === this.currentCategory;
+        return levelMatch && categoryMatch;
+      });
     }
-  },
-  mounted: async function() {
-    document.addEventListener('click', (e) => {
-      if (!e.target.closest('.profile-section')) {
-        this.isDropdownOpen = false;
-      }
-    });
-
-    await this.fetchBooks();
   }
 };
 </script>
 
 <style src="./css/style.css"></style>
+<style src="./css/resposive.css"></style>

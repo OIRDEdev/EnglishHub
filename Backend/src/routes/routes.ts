@@ -7,8 +7,8 @@ const router = Router();
 
 router.post('/api/auth/login', AuthenticationLogin);
 router.post('/api/auth/signUp', AuthenticationSignUp);
-router.get('/api/historia', MiddleJWTverify, GetHistoria);
-router.get('/api/historia/data', MiddleJWTverify, GetHistoriaData);
+router.get('/api/historia', /*MiddleJWTverify*/ GetHistoria);
+router.get('/api/historia/data', /*MiddleJWTverify,*/ GetHistoriaData);
 
 router.get('/api/auth/check', MiddleJWTverify, (req, res) => {
    if(req.user){

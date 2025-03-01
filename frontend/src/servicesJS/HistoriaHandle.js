@@ -1,10 +1,9 @@
 import axios from "axios";
 
-async function getHistoria(title, id){
+async function getHistoria(id){
+
     try{
-        const response = await axios.get(`/api/historia`, {
-            params: { title, id }
-        });
+        const response = await axios.get(`/api/historia?id=${id}`);
         return response.data;
     } catch (error) {
         console.error('Erro ao buscar a história:', error);

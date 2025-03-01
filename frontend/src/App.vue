@@ -14,7 +14,7 @@ export default {
   *{
     box-sizing: border-box;
   }
-
+/*
   body{
     display: flex;
     height: 100vh;
@@ -22,4 +22,5 @@ export default {
     align-items: center;
     margin: 0;
   }
+*/
 </style>

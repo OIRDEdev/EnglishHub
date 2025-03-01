@@ -1,77 +1,147 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Biblioteca Digital</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Story Library</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body { background-color: #f4f4f9; }
-        .sidebar { background-color: #4b0082; color: white; min-height: 100vh; }
-        .sidebar a { color: white; text-decoration: none; display: block; padding: 10px; }
-        .sidebar a:hover { background-color: #6a0dad; }
-        .profile-pic { width: 100px; height: 100px; border-radius: 50%; background-color: #6a0dad; margin: 20px auto; display: block; }
-        .card { border: none; }
-        .card img { border-radius: 10px; }
-        .card-title { font-weight: bold; }
-        .btn-ler { background-color: #00fa9a; color: white; border: none; border-radius: 20px; }
+        .sidebar {
+            background-color: #4a148c;
+            min-height: 100vh;
+            color: white;
+        }
+        .story-card {
+            transition: transform 0.2s;
+        }
+        .story-card:hover {
+            transform: scale(1.02);
+        }
+        .genre-badge {
+            background-color: #4a148c;
+            color: white;
+            border: none;
+        }
+        .level-badge {
+            background-color: #4a148c;
+            color: white;
+        }
+        .read-btn {
+            background-color: #00e676;
+            border: none;
+        }
+        .read-btn:hover {
+            background-color: #00c853;
+        }
+        .nav-pills .nav-link.active {
+            background-color: #4a148c;
+        }
     </style>
 </head>
 <body>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-2 sidebar">
-                <div class="profile-pic"></div>
-                <p class="text-center">user name</p>
-                <a href="#">Conquistas</a>
-                <a href="#">Amigos</a>
-                <a href="#">Grupos</a>
-                <a href="#">Modo Noturno</a>
-                <a href="#">Configurações</a>
-                <a href="#">Sair</a>
-            </div>
-            <div class="col-10">
-                <div class="d-flex justify-content-between my-3">
-                    <div>
-                        <button class="btn btn-primary">NÍVEL 1</button>
-                        <button class="btn btn-secondary">NÍVEL 2</button>
-                        <button class="btn btn-secondary">NÍVEL 3</button>
-                        <button class="btn btn-secondary">NÍVEL 50</button>
-                        <button class="btn btn-secondary">NÍVEL 53</button>
-                        <button class="btn btn-dark">TODOS</button>
-                        <button class="btn btn-secondary">LIDOS</button>
-                        <button class="btn btn-secondary">NÃO LIDOS</button>
-                    </div>
-                    <div>
-                        <button class="btn btn-primary">Ação</button>
-                        <button class="btn btn-primary">Aventura</button>
-                        <button class="btn btn-primary">Mistério</button>
-                    </div>
+            <!-- Sidebar -->
+            <div class="col-md-2 sidebar p-3">
+                <div class="text-center mb-4">
+                    <img src="profile-placeholder.jpg" class="rounded-circle" alt="Profile" width="80">
+                    <h5 class="mt-2">Username</h5>
                 </div>
-                <div class="row row-cols-1 row-cols-md-3 g-4">
-                    <div class="col">
-                        <div class="card">
-                            <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+                <div class="nav flex-column">
+                    <a href="#" class="nav-link text-white">Conquistas</a>
+                    <a href="#" class="nav-link text-white">Amigos</a>
+                    <a href="#" class="nav-link text-white">Grupos</a>
+                    <a href="#" class="nav-link text-white">Modo Noturno</a>
+                    <a href="#" class="nav-link text-white">Configurações</a>
+                    <a href="#" class="nav-link text-white">Sair</a>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-10 p-4">
+                <!-- Level Filter -->
+                <div class="mb-4">
+                    <ul class="nav nav-pills">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">NÍVEL 1</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">NÍVEL 2</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">NÍVEL 3</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">...</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">NÍVEL 50</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">NÍVEL 53</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Genre Filter -->
+                <div class="mb-4">
+                    <button class="btn genre-badge me-2">Ação</button>
+                    <button class="btn genre-badge me-2">Aventura</button>
+                    <button class="btn genre-badge">Mistério</button>
+                </div>
+
+                <!-- Stories Grid -->
+                <div class="row g-4">
+                    <!-- Story Card Template -->
+                    <div class="col-md-4 col-lg-3">
+                        <div class="card story-card">
+                            <img src="story-placeholder.jpg" class="card-img-top" alt="Story Cover">
                             <div class="card-body">
                                 <h5 class="card-title">TÍTULO 1</h5>
-                                <p class="card-text">Text...</p>
-                                <button class="btn btn-ler">LER</button>
+                                <p class="card-text">Text..</p>
+                                <button class="btn read-btn text-white w-100">LER</button>
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-md-4 col-lg-3">
+                        <div class="card story-card">
+                            <img src="story-placeholder.jpg" class="card-img-top" alt="Story Cover">
+                            <div class="card-body">
+                                <h5 class="card-title">TÍTULO 1</h5>
+                                <p class="card-text">Text..</p>
+                                <button class="btn read-btn text-white w-100">LER</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 col-lg-3">
+                        <div class="card story-card">
+                            <img src="story-placeholder.jpg" class="card-img-top" alt="Story Cover">
+                            <div class="card-body">
+                                <h5 class="card-title">TÍTULO 1</h5>
+                                <p class="card-text">Text..</p>
+                                <button class="btn read-btn text-white w-100">LER</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 col-lg-3">
+                        <div class="card story-card">
+                            <img src="story-placeholder.jpg" class="card-img-top" alt="Story Cover">
+                            <div class="card-body">
+                                <h5 class="card-title">TÍTULO 1</h5>
+                                <p class="card-text">Text..</p>
+                                <button class="btn read-btn text-white w-100">LER</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Repeat story card 5 more times -->
                 </div>
             </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('.sidebar').hide();
-            $('.profile-pic').on('click', function() {
-                $('.sidebar').toggle('slide');
-            });
-        });
-    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

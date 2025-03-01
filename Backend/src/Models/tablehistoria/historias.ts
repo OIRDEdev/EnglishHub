@@ -1,6 +1,5 @@
 import db from '../Database'; 
-import { RowDataPacket } from "mysql2/promise"; // Tipagem para resultados do MySQL
-
+import { RowDataPacket } from "mysql2/promise"; 
 
 // Interface para o formato que o banco de dados retorna
 interface BookDB extends RowDataPacket {
@@ -9,13 +8,27 @@ interface BookDB extends RowDataPacket {
   Author: string;
   synopse: string;
 }
-async function getHistoria(title: string, id: string) {
-    const query = `SELECT Book_text FROM Books WHERE title = ? AND id = ?`;
-    const [result]: any = await db.query(query, [title, id]);
+
+async function getHistoria(id: string) {
+   console.log(id);
+   console.log(typeof(id));
+    const query = `SELECT Book_text FROM Books WHERE id_Book = ${id}`;
+    const [result]: any = await db.query(query);
     if (result.length === 0) {
         return null; 
     }
-    return result;
+
+    let text: string = result[0].Book_text;
+    console.log(text);
+    text = text
+    .replace(/\[/g, '<span class="sentence_">')
+    .replace(/\]/g, '</span>')
+    .replace(/\(/g, '<span class="text_in_english">')
+    .replace(/\)/g, "</span>")
+    .replace(/\{/g, '<span class="translate_span">')
+    .replace(/\}/g, "</span>");
+    console.log(text);
+    return text;
 } 
 
 async function gethistoriaData() {
