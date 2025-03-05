@@ -1,0 +1,90 @@
+@media (max-width: 768px) {
+  header {
+    padding: 15px 20px;
+  }
+
+  .logo {
+    font-size: 2rem;
+  }
+
+  .hamburger {
+    display: flex;
+    order: 3;
+  }
+
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.95);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 90;
+  }
+
+  nav.active {
+    transform: translateX(0);
+  }
+
+  nav ul {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+
+  nav ul li {
+    margin: 0;
+  }
+
+  nav ul li a {
+    font-size: 1.2rem;
+  }
+
+  .login-btn {
+    order: 2;
+  }
+
+  .carousel-text h1 {
+    font-size: 2.2rem;
+  }
+
+  .carousel-text p {
+    font-size: 1rem;
+  }
+
+  .get-started-btn {
+    margin-top: 50vh;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo {
+    font-size: 1.8rem;
+  }
+
+  nav ul li a {
+    font-size: 1.1rem;
+  }
+
+  .login-btn {
+    padding: 8px 15px;
+    font-size: 0.9rem;
+  }
+
+  .carousel-text h1 {
+    font-size: 1.8rem;
+  }
+
+  .carousel-text p {
+    font-size: 0.9rem;
+  }
+
+  .get-started-btn {
+    margin-top: 45vh;
+  }
+}

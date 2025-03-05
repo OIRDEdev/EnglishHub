@@ -25,6 +25,7 @@ export const getValue = async (key: string): Promise<string | null> =>{
     return redisClient.get(key);
 };
 
+
 export const checkRedisHealth = async (): Promise<boolean> => {
     try{
         await redisClient.set('health', 'ok');

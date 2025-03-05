@@ -152,5 +152,5 @@ export default {
 };
 </script>
 
-<style src="./css/style.css"></style>
-<style src="./css/resposive.css"></style>
+<style src="./css/style.css" scoped></style>
+<style src="./css/resposive.css" scoped></style>

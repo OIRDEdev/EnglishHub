@@ -19,16 +19,31 @@ async function getHistoria(id: string) {
     }
 
     let text: string = result[0].Book_text;
-    console.log(text);
-    text = text
-    .replace(/\[/g, '<span class="sentence_">')
-    .replace(/\]/g, '</span>')
-    .replace(/\(/g, '<span class="text_in_english">')
-    .replace(/\)/g, "</span>")
-    .replace(/\{/g, '<span class="translate_span">')
-    .replace(/\}/g, "</span>");
-    console.log(text);
-    return text;
+console.log(text);
+
+// Substituições combinadas em um único replace com expressão regular
+text = text.replace(/\[|\]|\(|\)|\{|\}/g, (match) => {
+  switch (match) {
+    case '[':
+      return '<p class="sentence_">';
+    case ']':
+      return '</p>';
+    case '(':
+      return '<span class="text_in_english">';
+    case ')':
+      return '</span>';
+    case '{':
+      return '<span class="translate_span">';
+    case '}':
+      return '</span>';
+    default:
+      return match;
+  }
+});
+
+console.log(text);
+return text;
+
 } 
 
 async function gethistoriaData() {
