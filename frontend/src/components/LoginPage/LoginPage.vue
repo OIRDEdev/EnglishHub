@@ -60,7 +60,7 @@ export default {
       try {
         const response = await loginUser(this.username, this.password);
         if(response.status === 200) {
-          this.$router.push('/main/account');
+          this.$router.push(`/main/${this.username}`);
         }
       } catch (error) {
         console.error('Login error:', error);

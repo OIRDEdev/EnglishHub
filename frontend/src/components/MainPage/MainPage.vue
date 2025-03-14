@@ -138,7 +138,7 @@ export default {
     startReading(story) {
       const formatedTitle = story.title.toLowerCase().replace(/ /g, '-');
       this.$router.push(`/historia/${story.level}/${formatedTitle}/${story.id}`);
-    }
+    },
   },
   computed: {
     filteredStories() {

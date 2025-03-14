@@ -20,7 +20,7 @@ const isAuthenticated = async function() {
 const routes = [
     { path: '/', name: "Home", component: InicialPage },
     { path: '/login', name: "Login", component: LoginPage },
-    { path: '/main/account', name: "MainAccount", component: MainPage }, 
+    { path: '/main/:username', name: "MainAccount", component: MainPage }, 
     { path: '/register/signUp', name:'Signup', component: SignupPage},
     { path: '/historia/:level/:title/:id', name: 'Historia', component: HistoriaPage, props: true, /*meta: { requiresAuth: true }*/},
 ];

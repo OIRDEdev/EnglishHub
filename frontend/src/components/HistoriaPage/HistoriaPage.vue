@@ -20,10 +20,10 @@
       </div>
     </div>
 
-    <!-- Reading Content -->
+    
     <div class="reading-content" :class="fontSize" v-html="content"></div>
 
-    <!-- Progress Bar -->
+    
     <div class="progress-bar">
       <div class="progress" :style="{ width: progress + '%' }"></div>
       <span class="progress-text">{{ progress }}%</span>
