@@ -1,22 +1,27 @@
 import db from '../Database'; 
 
 
-async function getDatadforlogin(name: string): Promise<string | null> {
+async function getDatadforlogin(name: string): Promise<{ password_hash: string, id_user: number } | null> {
+    // Validate input
     if (!name || name.trim().length === 0) {
-        throw new Error('Nome de usuário inválido');
+        throw new Error('Invalid username');
     }
 
-    const query = `SELECT password_user FROM Users WHERE name_user LIKE ? LIMIT 1`;
+    const query = `SELECT password_hash, id_user FROM Users WHERE name = ? LIMIT 1`; 
+
     try {
-        const [result]: any = await db.query(query, [`%${name}%`]);
+        const [result]: any = await db.query(query, [name.trim()]);  
         if (result.length === 0) {
-            return null; 
+            return null;  
         }
        
-        return result[0].password_user;
+        return {
+            password_hash: result[0].password_hash,
+            id_user: result[0].id_user
+        };  
     } catch (err) {
-        console.error('Erro na consulta:', err);
-        throw new Error('Erro ao buscar nome');
+        console.error('Error fetching user data:', err);
+        throw new Error('Error searching for the username');
     }
 }
 
@@ -25,7 +30,7 @@ async function AddINbase(name: string, password: string, email: String): Promise
     if (!name || !password) {
         throw new Error('Nome de usuário e senha são obrigatórios');
     }
-    const query = `INSERT INTO Users (name_user, password_user, email_user) VALUES (?, ?, ?)`;
+    const query = `INSERT INTO Users (name, password_hash, email) VALUES (?, ?, ?)`;
 
     try {
         await db.query(query, [name, password, email]);

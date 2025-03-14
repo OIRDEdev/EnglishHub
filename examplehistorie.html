@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The boy Who Cannot Tell The Truth</title>
+  <style>
+    /* Basic reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background-color: #222;
+      font-family: Arial, sans-serif;
+      color: #fff;
+      overflow-x: hidden;
+    }
+    
+    /* HEADER: Contains title and play button */
+    /* Initially centered with the title animated in */
+    #header {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      width: 100%;
+      transition: top 1s ease, transform 1s ease;
+    }
+    /* When play is clicked, header moves upward to fixed position at the top */
+    #header.animateUp {
+      top: 0;
+      transform: translate(-50%, 0);
+      padding-top: 10px;
+    }
+    
+    /* TITLE styling and initial animation */
+    #title {
+      font-size: 3em;
+      text-align: center;
+      color: #fff;
+      animation: moveTitle 2s ease-out;
+    }
+    @keyframes moveTitle {
+      from {
+        transform: translate(0%, -300%);
+      }
+      to {
+        transform: translate(0%, 0);
+      }
+    }
+    
+    /* PLAY BUTTON styling */
+    #playButton {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 1.5em;
+      color: #fff;
+      background: #3498db;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+    #playButton:hover {
+      background: #2980b9;
+    }
+    
+    /* STORY CONTAINER for transcript; hidden initially */
+    #storyContainer {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%;
+      height: 300px;
+      background: #222;
+      color: #ffffff;
+      padding: 20px;
+      overflow: hidden; /* Extra text will be hidden */
+      transition: opacity 1s ease;
+      opacity: 0;
+    }
+    
+    /* AUDIO CONTAINER fixed at the bottom; hidden initially */
+    #audioContainer {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: #222;
+      padding: 10px 20px;
+      color: #222;
+      transition: opacity 1s ease;
+      opacity: 0;
+    }
+    
+    /* AUDIO PLAYER styles */
+    .player {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+    /* Custom toggle button styled like YouTube’s play/pause button */
+    #togglePlay {
+      width: 50px;
+      height: 50px;
+      background: #222;
+      border: none;
+      border-radius: 50%;
+      position: relative;
+      cursor: pointer;
+      margin-right: 20px;
+    }
+    /* Play icon (white triangle) */
+    #togglePlay.play::before {
+      content: '';
+      position: absolute;
+      left: 18px;
+      top: 14px;
+      border-style: solid;
+      border-width: 10px 0 10px 16px;
+      border-color: transparent transparent transparent #fff;
+    }
+    /* Pause icon (two white bars) */
+    #togglePlay.pause::before,
+    #togglePlay.pause::after {
+      content: '';
+      position: absolute;
+      top: 12px;
+      width: 8px;
+      height: 26px;
+      background: #fff;
+    }
+    #togglePlay.pause::before {
+      left: 12px;
+    }
+    #togglePlay.pause::after {
+      right: 12px;
+    }
+    
+    /* Progress bar container */
+    #progressContainer {
+      width: 80%;
+      height: 4px;
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 2px;
+      margin: 0 auto;
+      position: relative;
+    }
+    /* Progress indicator with dual-height effect */
+    #progress {
+      background: #3498db;
+      width: 0%;
+      position: absolute;
+      top: -2px;
+      height: 8px;
+      border-radius: 4px;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 600px) {
+      #title {
+        font-size: 2em;
+      }
+      #playButton {
+        font-size: 1.2em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER with title and play button -->
+  <div id="header">
+    <h1 id="title">The boy Who Cannot Tell The Truth</h1>
+    <button id="playButton">Play</button>
+  </div>
+  
+  <!-- STORY CONTAINER for transcript -->
+  <div id="storyContainer">
+    <p id="transcript">
+      I made an EP last year called «Undefined», with the songs «Blood/Water», «Insects», «Underneath My Skin» and «Daze». The songs are mostly electronic influenced, but a little bit poppy. They share a theme of not feeling good enough or feeling stuck on things.
+      <br><br>
+      My other songs (not on the EP) are more inspired by singer/ Songwriters and is more raw and honest.
+      <br>
+      Do you make music as well?
+    </p>
+  </div>
+  
+  <!-- AUDIO CONTAINER fixed at bottom -->
+  <div id="audioContainer">
+    <div class="player">
+      <button id="togglePlay" class="play"></button>
+      <div id="progressContainer">
+        <div id="progress"></div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Hidden audio element -->
+  <audio id="audio" src="./Aurora.mp3"></audio>
+  
+  <script>
+    // After the initial title animation, fade in the play button.
+    document.getElementById("title").addEventListener("animationend", function() {
+      document.getElementById("playButton").style.opacity = "1";
+    });
+    
+    // Get required elements
+    const header = document.getElementById("header");
+    const playButton = document.getElementById("playButton");
+    const storyContainer = document.getElementById("storyContainer");
+    const audioContainer = document.getElementById("audioContainer");
+    const audio = document.getElementById("audio");
+    const togglePlay = document.getElementById("togglePlay");
+    const progress = document.getElementById("progress");
+    const progressContainer = document.getElementById("progressContainer");
+    const transcriptEl = document.getElementById("transcript");
+    
+    // Store full transcript text and clear it for progressive reveal
+    const fullTranscript = transcriptEl.innerText.trim();
+    transcriptEl.innerText = "";
+    
+    // When the play button is clicked...
+    playButton.addEventListener("click", () => {
+      // Fade out and hide the play button
+      playButton.style.opacity = "0";
+      setTimeout(() => { playButton.style.display = "none"; }, 500);
+      
+      // Add class to header to animate it upward (title moves up)
+      header.classList.add("animateUp");
+      
+      // Show the story container and audio container with fade-in
+      storyContainer.style.display = "block";
+      audioContainer.style.display = "block";
+      // Force reflow to trigger the transition
+      void storyContainer.offsetWidth;
+      void audioContainer.offsetWidth;
+      storyContainer.style.opacity = "1";
+      audioContainer.style.opacity = "1";
+      
+      // Start audio playback
+      audio.play();
+      
+      // Change the custom toggle button to pause state
+      togglePlay.classList.remove("play");
+      togglePlay.classList.add("pause");
+    });
+    
+    // Toggle play/pause on the custom button click
+    togglePlay.addEventListener("click", () => {
+      if (audio.paused) {
+        audio.play();
+        togglePlay.classList.remove("play");
+        togglePlay.classList.add("pause");
+      } else {
+        audio.pause();
+        togglePlay.classList.remove("pause");
+        togglePlay.classList.add("play");
+      }
+    });
+    
+    // Update the progress bar and progressively reveal the transcript as audio plays
+    audio.addEventListener("timeupdate", () => {
+      if (audio.duration) {
+        const percent = (audio.currentTime / audio.duration) * 100;
+        progress.style.width = percent + "%";
+        // Reveal a portion of the transcript based on audio progress
+        const visibleChars = Math.floor((audio.currentTime / audio.duration) * fullTranscript.length);
+        transcriptEl.innerText = fullTranscript.substring(0, visibleChars);
+      }
+    });
+    
+    // Enable seeking by clicking on the progress bar
+    progressContainer.addEventListener("click", (e) => {
+      const rect = progressContainer.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const percent = clickX / rect.width;
+      audio.currentTime = percent * audio.duration;
+    });
+  </script>
+</body>
+</html>

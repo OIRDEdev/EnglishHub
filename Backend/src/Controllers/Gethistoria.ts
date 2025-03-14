@@ -1,18 +1,12 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
-import { getHistoria } from '../Models/tablehistoria/historias';
 import { getValue, setValue } from '../redis/redis-controllers';
 import { gethistoriaData } from '../Models/tablehistoria/historias';
+import Fetchhistory  from '../service/DatabaseObject'
+
+
 const GetHistoria: RequestHandler = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.query;
-    /*
-    const { user } = req;
     
-    if (!user) {
-        res.status(401).json({ error: 'Usuário não autenticado' });
-        return;
-    } 
-    */
-
     if (typeof id !== 'string') {
         res.status(400).json({ error: 'ID inválido' });
         return;
@@ -20,18 +14,57 @@ const GetHistoria: RequestHandler = async (req: Request, res: Response): Promise
 
     try {
         const redisKey = `historia_${id}`;
-        const cachedHistoria = await getValue(redisKey);
+        const audioKey = `audio_${id}`;
+        
+        const [cachedHistoria, cachedAudio] = await Promise.all([
+            getValue(redisKey),
+            getValue(audioKey)
+        ]);
 
-        if (cachedHistoria) {
-            res.json(cachedHistoria);
+        if (cachedHistoria && cachedAudio) {
+            res.json({
+                historia: JSON.parse(cachedHistoria),
+                audio: {
+                    contentType: "audio/mp3",
+                    data: cachedAudio 
+                }
+            });
         } else {
-            const historia = await getHistoria(id);
+            let audiopath = 'stories/audio/';
+            let historypath = 'stories/content/';
+            const fileKey = redisKey + ".json";
+            
+            const historiaPromise = cachedHistoria ? 
+                Promise.resolve(JSON.parse(cachedHistoria)) : 
+                Fetchhistory(historypath + fileKey, false);
+                
+            const audioPromise = cachedAudio ? 
+                Promise.resolve(cachedAudio) : 
+                Fetchhistory(audiopath + '.mp3', true);
+            
+            const [historia, audio] = await Promise.all([historiaPromise, audioPromise]);
+            
             if (!historia) {
                 res.status(404).json({ error: "Historia não encontrada: error função getHistoria" });
                 return;
             }
-            await setValue(redisKey, historia);
-            res.json(historia);
+            
+            if (!cachedHistoria) {
+                await setValue(redisKey, JSON.stringify(historia));
+            }
+            
+            if (!cachedAudio) {
+                const audioBase64 = audio.toString('base64');
+                await setValue(audioKey, audioBase64);
+            }
+            
+            res.json({
+                historia, 
+                audio: {
+                    contentType: "audio/mp3", 
+                    data: audio.toString('base64')
+                }
+            });
         }
     } catch (error) {
         res.status(500).json({ error: error });
@@ -39,6 +72,13 @@ const GetHistoria: RequestHandler = async (req: Request, res: Response): Promise
 }
 
 export const GetHistoriaData = async (req: Request, res: Response) => {
+    const { id } = req.query;
+    
+    if (typeof id !== 'string') {
+        res.status(400).json({ error: 'ID inválido' });
+        return;
+    }
+    
     const data = await gethistoriaData();
     res.json(data);
 };

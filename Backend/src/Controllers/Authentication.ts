@@ -29,14 +29,14 @@ const AuthenticationLogin: RequestHandler = async (req: Request, res: Response):
         }
 
 
-        const isPasswordValid = await bcrypt.compare(password, pass);
+        const isPasswordValid = await bcrypt.compare(password, pass.password_hash);
         if (!isPasswordValid) {
             res.status(400).send('Usuário ou senha inválidos');
             return 
         }
 
 
-        const token = jwt.sign({ username }, SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ username ,  userid: pass.id_user}, SECRET, { expiresIn: '1h' });
 
         res.cookie('token', token, {
             httpOnly: true,
@@ -81,6 +81,7 @@ const AuthenticationSignUp: RequestHandler = async (req: Request, res: Response)
 };
 
 interface MyJwtPayload extends JwtPayload {
+    userid: number;
     username: string;
 }
 
@@ -94,7 +95,7 @@ const MiddleJWTverify: RequestHandler = async function (req: Request, res: Respo
 
     try{
         const decoded = jwt.verify(token, SECRET) as MyJwtPayload;
-        req.user ={ username: decoded.username }
+        req.user ={ username: decoded.username, userid: decoded.userid }
         next();
     }catch (err) {
         res.status(401).json({ message: 'Token inválido ou expirado' });
