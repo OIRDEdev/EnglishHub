@@ -104,10 +104,10 @@ export default {
       this.books[index].isHovered = false;
     },
     goToLogin() {
-      this.$router.push('/login');
+      this.$router.push('/auth/login');
     },
     goToSignup() {
-      this.$router.push('/register/signUp');
+      this.$router.push('/auth/signUp');
     }
   }
 }

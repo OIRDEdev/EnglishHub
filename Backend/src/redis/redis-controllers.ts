@@ -43,5 +43,6 @@ export default {
     initializeRedis,
     setValue,
     getValue,
-    checkRedisHealth
+    checkRedisHealth,
+    redisClient
 };

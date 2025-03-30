@@ -16,7 +16,6 @@ interface Card_update extends RowDataPacket{
 };
 
 function validateSentence(sentence: string): boolean {
-    // Check if sentence meets your criteria (length, allowed characters, etc.)
     if (!sentence || typeof sentence !== 'string' || sentence.length > 500) {
       return false;
     }

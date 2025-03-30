@@ -5,7 +5,7 @@ import MainPage from "@/components/MainPage/MainPage.vue";
 import SignupPage from "@/components/RgisterPage/SignupPage.vue";
 import HistoriaPage from "@/components/HistoriaPage/HistoriaPage.vue";
 import InicialPage from "@/components/InicialPage/InicialPage.vue";
-
+import VerifyEmail from "@/components/verifyemail/VerifyEmail.vue";
 // Função de autenticação
 const isAuthenticated = async function() {
     try {
@@ -19,9 +19,10 @@ const isAuthenticated = async function() {
 
 const routes = [
     { path: '/', name: "Home", component: InicialPage },
-    { path: '/login', name: "Login", component: LoginPage },
+    { path: '/auth/login', name: "Login", component: LoginPage },
+    { path: '/auth/verify', name: "VerifyEmail", component: VerifyEmail},
     { path: '/main/:username', name: "MainAccount", component: MainPage }, 
-    { path: '/register/signUp', name:'Signup', component: SignupPage},
+    { path: '/auth/signUp', name:'Signup', component: SignupPage},
     { path: '/historia/:level/:title/:id', name: 'Historia', component: HistoriaPage, props: true, /*meta: { requiresAuth: true }*/},
 ];
 

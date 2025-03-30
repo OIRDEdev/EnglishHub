@@ -25,7 +25,7 @@
 
               <div class="signup-prompt">
                 <p>Don't have an account?</p>
-                <router-link to="/register/signUp" class="signup-btn">Sign Up</router-link>
+                <router-link to="/auth/signUp" class="signup-btn">Sign Up</router-link>
               </div>
             </form>
           </div>

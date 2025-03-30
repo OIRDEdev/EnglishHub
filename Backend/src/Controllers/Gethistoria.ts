@@ -13,7 +13,7 @@ const GetHistoria: RequestHandler = async (req: Request, res: Response): Promise
     }
 
     try {
-        const redisKey = `historia_${id}`;
+        const redisKey = `history_${id}`;
         const audioKey = `audio_${id}`;
         
         const [cachedHistoria, cachedAudio] = await Promise.all([
@@ -40,12 +40,12 @@ const GetHistoria: RequestHandler = async (req: Request, res: Response): Promise
                 
             const audioPromise = cachedAudio ? 
                 Promise.resolve(cachedAudio) : 
-                Fetchhistory(audiopath + '.mp3', true);
+                Fetchhistory(audiopath + redisKey + '.mp3', true);
             
             const [historia, audio] = await Promise.all([historiaPromise, audioPromise]);
             
             if (!historia) {
-                res.status(404).json({ error: "Historia não encontrada: error função getHistoria" });
+                res.status(404).json({ error: "History not found: error in function getHistoria" });
                 return;
             }
             
@@ -72,13 +72,18 @@ const GetHistoria: RequestHandler = async (req: Request, res: Response): Promise
 }
 
 export const GetHistoriaData = async (req: Request, res: Response) => {
-    const { id } = req.query;
-    
-    if (typeof id !== 'string') {
-        res.status(400).json({ error: 'ID inválido' });
+    if (!req.user) {
+        res.status(401).json({ error: "User not authenticated" });
         return;
     }
     
+    const { userid } = req.user;
+    
+    if (!userid) {
+        res.status(400).json({ error: "User ID is required and must be a number." });
+        return;
+    }
+
     const data = await gethistoriaData();
     res.json(data);
 };
