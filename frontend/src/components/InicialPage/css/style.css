@@ -50,15 +50,17 @@ nav ul li a:hover {
   color: #e6e6e6;
 }
 
+
 .login-btn {
   background-color: #00d1a0;
   color: white;
   border: none;
-  padding: 10px 20px;
+  padding: 10px 20px ;
   border-radius: 5px;
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  margin-right: 5px;
 }
 
 .login-btn:hover {

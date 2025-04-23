@@ -6,6 +6,8 @@ import SignupPage from "@/components/RgisterPage/SignupPage.vue";
 import HistoriaPage from "@/components/HistoriaPage/HistoriaPage.vue";
 import InicialPage from "@/components/InicialPage/InicialPage.vue";
 import VerifyEmail from "@/components/verifyemail/VerifyEmail.vue";
+import AnkiCardsPage from "@/components/AnkiCards/AnkiCardsPage.vue";
+
 // Função de autenticação
 const isAuthenticated = async function() {
     try {
@@ -24,6 +26,7 @@ const routes = [
     { path: '/main/:username', name: "MainAccount", component: MainPage }, 
     { path: '/auth/signUp', name:'Signup', component: SignupPage},
     { path: '/historia/:level/:title/:id', name: 'Historia', component: HistoriaPage, props: true, /*meta: { requiresAuth: true }*/},
+    { path: '/Cards', name:'Cards', component: AnkiCardsPage}
 ];
 
 const router = createRouter({

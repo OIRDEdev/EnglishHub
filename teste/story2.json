@@ -1,0 +1,205 @@
+[
+  {
+    "original": "Leo loved the river.",
+    "translation": "Leo amava o rio.",
+    "explanation": {
+      "Leo": "Leo (nome próprio)",
+      "loved": "amava",
+      "the": "o",
+      "river": "rio"
+    }
+  },
+  {
+    "original": "Leo loved the river more than anything!",
+    "translation": "Leo amava o rio mais que qualquer coisa!",
+    "explanation": {
+      "Leo": "Leo (nome próprio)",
+      "loved": "amava",
+      "the": "o",
+      "river": "rio",
+      "more": "mais",
+      "than": "que",
+      "anything": "qualquer coisa"
+    }
+  },
+  {
+    "original": "Every day, Leo went to the river.",
+    "translation": "Todo dia, Leo ia para o rio.",
+    "explanation": {
+      "Every": "Todo",
+      "day": "dia",
+      "Leo": "Leo (nome próprio)",
+      "went": "ia",
+      "to": "para",
+      "the": "o",
+      "river": "rio"
+    }
+  },
+  {
+    "original": "Go, go, go!",
+    "translation": "Vai, vai, vai!",
+    "explanation": {
+      "Go": "Vai"
+    }
+  },
+  {
+    "original": "The river had water that moved.",
+    "translation": "O rio tinha água que se movia.",
+    "explanation": {
+      "The": "O",
+      "river": "rio",
+      "had": "tinha",
+      "water": "água",
+      "that": "que",
+      "moved": "se movia"
+    }
+  },
+  {
+    "original": "The river had stones, round and smooth.",
+    "translation": "O rio tinha pedras, redondas e lisas.",
+    "explanation": {
+      "The": "O",
+      "river": "rio",
+      "had": "tinha",
+      "stones": "pedras",
+      "round": "redondas",
+      "and": "e",
+      "smooth": "lisas"
+    }
+  },
+  {
+    "original": "The river had little fish that swam fast.",
+    "translation": "O rio tinha peixinhos que nadavam rápido.",
+    "explanation": {
+      "The": "O",
+      "river": "rio",
+      "had": "tinha",
+      "little": "pequenos (parte de 'peixinhos')",
+      "fish": "peixes (parte de 'peixinhos')",
+      "that": "que",
+      "swam": "nadavam",
+      "fast": "rápido"
+    }
+  },
+  {
+    "original": "The river had turtles that moved slowly.",
+    "translation": "O rio tinha tartarugas que se moviam devagar.",
+    "explanation": {
+      "The": "O",
+      "river": "rio",
+      "had": "tinha",
+      "turtles": "tartarugas",
+      "that": "que",
+      "moved": "se moviam",
+      "slowly": "devagar"
+    }
+  },
+  {
+    "original": "Leo knew them all.",
+    "translation": "Leo conhecia todos eles.",
+    "explanation": {
+      "Leo": "Leo (nome próprio)",
+      "knew": "conhecia",
+      "them": "eles",
+      "all": "todos"
+    }
+  },
+  {
+    "original": "Then came the special day.",
+    "translation": "Então chegou o dia especial.",
+    "explanation": {
+      "Then": "Então",
+      "came": "chegou",
+      "the": "o",
+      "special": "especial",
+      "day": "dia"
+    }
+  },
+  {
+    "original": "Leo looked in the water.",
+    "translation": "Leo olhou na água.",
+    "explanation": {
+      "Leo": "Leo (nome próprio)",
+      "looked": "olhou",
+      "in": "na (em + a)",
+      "the": "a",
+      "water": "água"
+    }
+  },
+  {
+    "original": "He saw the fish!",
+    "translation": "Ele viu o peixe!",
+    "explanation": {
+      "He": "Ele",
+      "saw": "viu",
+      "the": "o",
+      "fish": "peixe"
+    }
+  },
+  {
+    "original": "The magic fish!",
+    "translation": "O peixe mágico!",
+    "explanation": {
+      "The": "O",
+      "magic": "mágico",
+      "fish": "peixe"
+    }
+  },
+  {
+    "original": "It was shiny.",
+    "translation": "Ele era brilhante.",
+    "explanation": {
+      "It": "Ele (refere-se ao peixe)",
+      "was": "era",
+      "shiny": "brilhante"
+    }
+  },
+  {
+    "original": "It had bright colors like a rainbow.",
+    "translation": "Ele tinha cores brilhantes como um arco-íris.",
+    "explanation": {
+      "It": "Ele",
+      "had": "tinha",
+      "bright": "brilhantes",
+      "colors": "cores",
+      "like": "como",
+      "a": "um",
+      "rainbow": "arco-íris"
+    }
+  },
+  {
+    "original": "It had little lights on its body.",
+    "translation": "Ele tinha luzinhas em seu corpo.",
+    "explanation": {
+      "It": "Ele",
+      "had": "tinha",
+      "little": "pequenas (parte de 'luzinhas')",
+      "lights": "luzes (parte de 'luzinhas')",
+      "on": "em",
+      "its": "seu",
+      "body": "corpo"
+    }
+  },
+  {
+    "original": "This fish was not like other fish.",
+    "translation": "Este peixe não era como os outros peixes.",
+    "explanation": {
+      "This": "Este",
+      "fish": "peixe",
+      "was": "era",
+      "not": "não",
+      "like": "como",
+      "other": "outros",
+      "fish": "peixes"
+    }
+  },
+  {
+    "original": "It was magic!",
+    "translation": "Era mágico!",
+    "explanation": {
+      "It": "(implícito)",
+      "was": "era",
+      "magic": "mágico"
+    }
+  }
+]

@@ -1,0 +1,56 @@
+@media (max-width: 768px) {
+  #title {
+    font-size: 1.8rem;
+  }
+  
+  #storyContainer {
+    width: 90%;
+    padding: 20px;
+  }
+  
+  .controls {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 480px) {
+  #title {
+    font-size: 1.5rem;
+  }
+  
+  #playButton {
+    padding: 10px 20px;
+    font-size: 1rem;
+  }
+  
+  #storyContainer {
+    width: 95%;
+    padding: 15px;
+  }
+  
+  #togglePlay {
+    width: 40px;
+    height: 40px;
+  }
+  
+  #togglePlay.play::before {
+    left: 15px;
+    top: 11px;
+    border-width: 8px 0 8px 12px;
+  }
+  
+  #togglePlay.pause::before,
+  #togglePlay.pause::after {
+    top: 10px;
+    width: 5px;
+    height: 20px;
+  }
+  
+  #togglePlay.pause::before {
+    left: 12px;
+  }
+  
+  #togglePlay.pause::after {
+    right: 12px;
+  }
+}

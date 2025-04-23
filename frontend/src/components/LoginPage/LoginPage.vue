@@ -10,7 +10,7 @@
             <form @submit.prevent="loginUser">
               <div class="form-group">
                 <input type="text" v-model="username" id="username" required>
-                <label for="username">Email</label>
+                <label for="username">Username</label>
               </div>
 
               <div class="form-group">
@@ -28,6 +28,11 @@
                 <router-link to="/auth/signUp" class="signup-btn">Sign Up</router-link>
               </div>
             </form>
+
+            <div class="alternative-login">
+              <GoogleButton />
+            </div>
+
           </div>
         </div>
 
@@ -44,6 +49,7 @@
 
 <script>
 import loginUser from '@/servicesJS/LoginJS.js';
+import GoogleButton from '../GoogleTemplateB/GoogleButton.vue'; 
 
 export default {
   name: "LoginPage",
@@ -54,6 +60,7 @@ export default {
     };
   },
   components: {
+    GoogleButton
   },
   methods: {
     async loginUser() {

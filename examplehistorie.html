@@ -1,290 +1,408 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The boy Who Cannot Tell The Truth</title>
-  <style>
-    /* Basic reset */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      background-color: #222;
-      font-family: Arial, sans-serif;
-      color: #fff;
-      overflow-x: hidden;
-    }
-    
-    /* HEADER: Contains title and play button */
-    /* Initially centered with the title animated in */
-    #header {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center;
-      width: 100%;
-      transition: top 1s ease, transform 1s ease;
-    }
-    /* When play is clicked, header moves upward to fixed position at the top */
-    #header.animateUp {
-      top: 0;
-      transform: translate(-50%, 0);
-      padding-top: 10px;
-    }
-    
-    /* TITLE styling and initial animation */
-    #title {
-      font-size: 3em;
-      text-align: center;
-      color: #fff;
-      animation: moveTitle 2s ease-out;
-    }
-    @keyframes moveTitle {
-      from {
-        transform: translate(0%, -300%);
-      }
-      to {
-        transform: translate(0%, 0);
-      }
-    }
-    
-    /* PLAY BUTTON styling */
-    #playButton {
-      margin-top: 20px;
-      padding: 10px 20px;
-      font-size: 1.5em;
-      color: #fff;
-      background: #3498db;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      opacity: 0;
-      transition: opacity 1s ease-in-out;
-    }
-    #playButton:hover {
-      background: #2980b9;
-    }
-    
-    /* STORY CONTAINER for transcript; hidden initially */
-    #storyContainer {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 80%;
-      height: 300px;
-      background: #222;
-      color: #ffffff;
-      padding: 20px;
-      overflow: hidden; /* Extra text will be hidden */
-      transition: opacity 1s ease;
-      opacity: 0;
-    }
-    
-    /* AUDIO CONTAINER fixed at the bottom; hidden initially */
-    #audioContainer {
-      display: none;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background: #222;
-      padding: 10px 20px;
-      color: #222;
-      transition: opacity 1s ease;
-      opacity: 0;
-    }
-    
-    /* AUDIO PLAYER styles */
-    .player {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 10px;
-    }
-    /* Custom toggle button styled like YouTube’s play/pause button */
-    #togglePlay {
-      width: 50px;
-      height: 50px;
-      background: #222;
-      border: none;
-      border-radius: 50%;
-      position: relative;
-      cursor: pointer;
-      margin-right: 20px;
-    }
-    /* Play icon (white triangle) */
-    #togglePlay.play::before {
-      content: '';
-      position: absolute;
-      left: 18px;
-      top: 14px;
-      border-style: solid;
-      border-width: 10px 0 10px 16px;
-      border-color: transparent transparent transparent #fff;
-    }
-    /* Pause icon (two white bars) */
-    #togglePlay.pause::before,
-    #togglePlay.pause::after {
-      content: '';
-      position: absolute;
-      top: 12px;
-      width: 8px;
-      height: 26px;
-      background: #fff;
-    }
-    #togglePlay.pause::before {
-      left: 12px;
-    }
-    #togglePlay.pause::after {
-      right: 12px;
-    }
-    
-    /* Progress bar container */
-    #progressContainer {
-      width: 80%;
-      height: 4px;
-      background: #fff;
-      border: 1px solid #ccc;
-      border-radius: 2px;
-      margin: 0 auto;
-      position: relative;
-    }
-    /* Progress indicator with dual-height effect */
-    #progress {
-      background: #3498db;
-      width: 0%;
-      position: absolute;
-      top: -2px;
-      height: 8px;
-      border-radius: 4px;
-    }
-    
-    /* Responsive adjustments */
-    @media (max-width: 600px) {
-      #title {
-        font-size: 2em;
-      }
-      #playButton {
-        font-size: 1.2em;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plataforma de Aprendizado</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: white;
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            min-height: 100vh;
+        }
+
+        
+        .sidebar {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-right: 1px solid #eee;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            text-align: center;
+        }
+
+        .sidebar li {
+            padding: 20px 0;
+            cursor: pointer;
+            transition: color 0.3s;
+            color: #666;
+        }
+
+        .sidebar li:hover {
+            color: #000;
+        }
+
+        .sidebar li.active {
+            color: #3498db;
+            font-weight: bold;
+        }
+
+        /* Conteúdo principal */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        /* Cabeçalho */
+        .header {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 10px 0;
+            margin-bottom: 40px;
+        }
+
+        .user-level {
+            margin-right: 15px;
+            color: #3498db;
+            font-weight: bold;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        .settings-icon {
+            margin-left: 15px;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        /* Níveis */
+        .level-filters {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .level-btn {
+            padding: 8px 15px;
+            background: none;
+            border: 1px solid #eee;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .level-btn:hover, .level-btn.active {
+            border-color: #3498db;
+            color: #3498db;
+        }
+
+        /* Carrossel de Cards */
+        .carousel-container {
+            position: relative;
+            margin: 30px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .carousel {
+            width: 320px;
+            overflow: hidden;
+        }
+
+        .carousel-inner {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .card {
+            width: 320px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .card-img {
+            height: 240px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .card-genre {
+            font-size: 14px;
+            color: #3498db;
+            margin-bottom: 8px;
+        }
+
+        .card-level {
+            display: inline-block;
+            color: #e74c3c;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .card-synopsis {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .carousel-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0 20px;
+            color: #666;
+        }
+
+        .carousel-btn:hover {
+            color: #000;
+        }
+
+        /* Modal de configurações */
+        .settings-modal {
+            display: none;
+            position: fixed;
+            top: 60px;
+            right: 20px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            z-index: 200;
+            width: 250px;
+        }
+
+        .settings-modal h3 {
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .settings-option {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.2);
+            z-index: 190;
+        }
+    </style>
 </head>
 <body>
-  <!-- HEADER with title and play button -->
-  <div id="header">
-    <h1 id="title">The boy Who Cannot Tell The Truth</h1>
-    <button id="playButton">Play</button>
-  </div>
-  
-  <!-- STORY CONTAINER for transcript -->
-  <div id="storyContainer">
-    <p id="transcript">
-      I made an EP last year called «Undefined», with the songs «Blood/Water», «Insects», «Underneath My Skin» and «Daze». The songs are mostly electronic influenced, but a little bit poppy. They share a theme of not feeling good enough or feeling stuck on things.
-      <br><br>
-      My other songs (not on the EP) are more inspired by singer/ Songwriters and is more raw and honest.
-      <br>
-      Do you make music as well?
-    </p>
-  </div>
-  
-  <!-- AUDIO CONTAINER fixed at bottom -->
-  <div id="audioContainer">
-    <div class="player">
-      <button id="togglePlay" class="play"></button>
-      <div id="progressContainer">
-        <div id="progress"></div>
-      </div>
+    <!-- Menu lateral -->
+    <div class="sidebar">
+        <ul>
+            <li class="active">Stories</li>
+            <li>Games</li>
+            <li>Anki</li>
+            <li>Pronunciacion</li>
+        </ul>
     </div>
-  </div>
-  
-  <!-- Hidden audio element -->
-  <audio id="audio" src="./Aurora.mp3"></audio>
-  
-  <script>
-    // After the initial title animation, fade in the play button.
-    document.getElementById("title").addEventListener("animationend", function() {
-      document.getElementById("playButton").style.opacity = "1";
-    });
-    
-    // Get required elements
-    const header = document.getElementById("header");
-    const playButton = document.getElementById("playButton");
-    const storyContainer = document.getElementById("storyContainer");
-    const audioContainer = document.getElementById("audioContainer");
-    const audio = document.getElementById("audio");
-    const togglePlay = document.getElementById("togglePlay");
-    const progress = document.getElementById("progress");
-    const progressContainer = document.getElementById("progressContainer");
-    const transcriptEl = document.getElementById("transcript");
-    
-    // Store full transcript text and clear it for progressive reveal
-    const fullTranscript = transcriptEl.innerText.trim();
-    transcriptEl.innerText = "";
-    
-    // When the play button is clicked...
-    playButton.addEventListener("click", () => {
-      // Fade out and hide the play button
-      playButton.style.opacity = "0";
-      setTimeout(() => { playButton.style.display = "none"; }, 500);
-      
-      // Add class to header to animate it upward (title moves up)
-      header.classList.add("animateUp");
-      
-      // Show the story container and audio container with fade-in
-      storyContainer.style.display = "block";
-      audioContainer.style.display = "block";
-      // Force reflow to trigger the transition
-      void storyContainer.offsetWidth;
-      void audioContainer.offsetWidth;
-      storyContainer.style.opacity = "1";
-      audioContainer.style.opacity = "1";
-      
-      // Start audio playback
-      audio.play();
-      
-      // Change the custom toggle button to pause state
-      togglePlay.classList.remove("play");
-      togglePlay.classList.add("pause");
-    });
-    
-    // Toggle play/pause on the custom button click
-    togglePlay.addEventListener("click", () => {
-      if (audio.paused) {
-        audio.play();
-        togglePlay.classList.remove("play");
-        togglePlay.classList.add("pause");
-      } else {
-        audio.pause();
-        togglePlay.classList.remove("pause");
-        togglePlay.classList.add("play");
-      }
-    });
-    
-    // Update the progress bar and progressively reveal the transcript as audio plays
-    audio.addEventListener("timeupdate", () => {
-      if (audio.duration) {
-        const percent = (audio.currentTime / audio.duration) * 100;
-        progress.style.width = percent + "%";
-        // Reveal a portion of the transcript based on audio progress
-        const visibleChars = Math.floor((audio.currentTime / audio.duration) * fullTranscript.length);
-        transcriptEl.innerText = fullTranscript.substring(0, visibleChars);
-      }
-    });
-    
-    // Enable seeking by clicking on the progress bar
-    progressContainer.addEventListener("click", (e) => {
-      const rect = progressContainer.getBoundingClientRect();
-      const clickX = e.clientX - rect.left;
-      const percent = clickX / rect.width;
-      audio.currentTime = percent * audio.duration;
-    });
-  </script>
+
+    <!-- Conteúdo principal -->
+    <div class="main-content">
+        <!-- Cabeçalho -->
+        <div class="header">
+            <div class="user-profile">
+                <div class="user-level">Nível 5</div>
+                <img src="/api/placeholder/40/40" alt="Perfil" class="user-img">
+                <div class="settings-icon" onclick="toggleSettings()">⚙️</div>
+            </div>
+        </div>
+
+        <!-- Filtros de nível -->
+        <div class="level-filters">
+            <button class="level-btn">1</button>
+            <button class="level-btn active">2</button>
+            <button class="level-btn">3</button>
+            <button class="level-btn">4</button>
+            <button class="level-btn">5</button>
+            <button class="level-btn">6</button>
+            <button class="level-btn">7</button>
+            <button class="level-btn">8</button>
+            <button class="level-btn">9</button>
+            <button class="level-btn">10</button>
+        </div>
+
+        <!-- Carrossel de Cards -->
+        <div class="carousel-container">
+            <button class="carousel-btn prev-btn" onclick="moveCarousel(-1)">❮</button>
+            <div class="carousel">
+                <div class="carousel-inner">
+                    <!-- Cards serão inseridos aqui pelo JavaScript -->
+                </div>
+            </div>
+            <button class="carousel-btn next-btn" onclick="moveCarousel(1)">❯</button>
+        </div>
+    </div>
+
+    <!-- Modal de configurações -->
+    <div class="settings-modal" id="settingsModal">
+        <h3>Configurações</h3>
+        <div class="settings-option">
+            <span>Modo escuro</span>
+            <input type="checkbox" id="darkMode">
+        </div>
+        <div class="settings-option">
+            <span>Notificações</span>
+            <input type="checkbox" id="notifications" checked>
+        </div>
+        <div class="settings-option">
+            <span>Som</span>
+            <input type="checkbox" id="sound" checked>
+        </div>
+    </div>
+
+    <div class="modal-backdrop" id="modalBackdrop" onclick="toggleSettings()"></div>
+
+    <script>
+        const storyData = [
+            {
+                title: "A Jornada Inesperada",
+                image: "/api/placeholder/320/240",
+                genre: "Aventura",
+                level: 2,
+                synopsis: "Um estudante descobre um portal mágico em sua nova escola e embarca em uma aventura incrível em um mundo desconhecido."
+            },
+            {
+                title: "O Mistério da Floresta",
+                image: "/api/placeholder/320/240",
+                genre: "Mistério",
+                level: 2,
+                synopsis: "Quando objetos começam a desaparecer na pequena cidade, um grupo de amigos decide investigar a floresta assombrada."
+            },
+            {
+                title: "Amigos para Sempre",
+                image: "/api/placeholder/320/240",
+                genre: "Amizade",
+                level: 2,
+                synopsis: "Uma história tocante sobre dois amigos que se reencontram após anos separados e redescobrem o valor da amizade verdadeira."
+            },
+            {
+                title: "O Segredo do Oceano",
+                image: "/api/placeholder/320/240",
+                genre: "Fantasia",
+                level: 2,
+                synopsis: "Uma menina descobre que pode se comunicar com criaturas marinhas e precisa salvar o oceano de uma terrível poluição."
+            },
+            {
+                title: "Viagem ao Espaço",
+                image: "/api/placeholder/320/240",
+                genre: "Ficção Científica",
+                level: 2,
+                synopsis: "Um jovem astronauta embarca em sua primeira missão espacial e faz descobertas surpreendentes sobre o universo."
+            },
+            {
+                title: "A Casa na Colina",
+                image: "/api/placeholder/320/240",
+                genre: "Terror Leve",
+                level: 2,
+                synopsis: "Uma família se muda para uma casa antiga e começa a presenciar eventos estranhos que desafiam a explicação."
+            }
+        ];
+
+       
+        function createCards() {
+            const carouselInner = document.querySelector('.carousel-inner');
+            
+            storyData.forEach(story => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                
+                card.innerHTML = `
+                    <img src="${story.image}" alt="${story.title}" class="card-img">
+                    <div class="card-content">
+                        <div class="card-title">${story.title}</div>
+                        <div class="card-genre">${story.genre}</div>
+                        <div class="card-level">Nível ${story.level}</div>
+                        <div class="card-synopsis">${story.synopsis}</div>
+                    </div>
+                `;
+                
+                carouselInner.appendChild(card);
+            });
+        }
+
+        let currentPosition = 0;
+        function moveCarousel(direction) {
+            const carousel = document.querySelector('.carousel-inner');
+            const cardWidth = 320; 
+            
+            currentPosition += direction;
+            
+            
+            if (currentPosition < 0) currentPosition = 0;
+            if (currentPosition > storyData.length - 1) currentPosition = storyData.length - 1;
+            
+            carousel.style.transform = `translateX(-${currentPosition * cardWidth}px)`;
+        }
+
+        
+        function toggleSettings() {
+            const modal = document.getElementById('settingsModal');
+            const backdrop = document.getElementById('modalBackdrop');
+            
+            if (modal.style.display === 'block') {
+                modal.style.display = 'none';
+                backdrop.style.display = 'none';
+            } else {
+                modal.style.display = 'block';
+                backdrop.style.display = 'block';
+            }
+        }
+
+        
+        document.querySelectorAll('.level-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            createCards();
+        });
+    </script>
 </body>
 </html>

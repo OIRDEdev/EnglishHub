@@ -15,7 +15,10 @@
           <li><a href="#contact">Contact Us</a></li>
         </ul>
       </nav>
-      <button class="login-btn" @click="goToLogin">Login</button>
+      <div class="login-container">
+        <button class="login-btn" @click="goToLogin">Login</button>
+        <button class="login-btn" @click="goToSignup">signUp</button>
+      </div>
     </header>
 
     <!-- Hero Section -->
@@ -73,7 +76,7 @@ export default {
         {
           title: "Extensive Library",
           description: "Access a vast collection of English content across various difficulty levels",
-          desktopImage: "/carouselothers2.jpg",
+          desktopImage: "https://englishhub897785602.imgix.net/carouselothers2.jpg",
           mobileImage: "/carouselSmartfhone2.jpg"
         }
       ],
@@ -113,5 +116,5 @@ export default {
 }
 </script>
 
-<style src="./css/style.css"></style>
-<style src="./css/responsive.css"></style>
+<style src="./css/style.css" scoped></style>
+<style src="./css/responsive.css" scoped></style>

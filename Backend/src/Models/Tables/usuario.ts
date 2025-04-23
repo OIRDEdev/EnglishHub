@@ -72,4 +72,20 @@ async function getUserByEmail(email: string): Promise<{success: boolean, email: 
     }
 }
 
-export { getDatadforlogin, AddINbase, getUserByEmail };
+async function addGoogleUser(email: string, name: string, picture: string, isVerify: number){
+    if (!name || !email || !picture || !isVerify) {
+        throw new Error('these campus are obligated');
+    }
+    const query = `INSERT INTO Users (name, email, picture, isverified) VALUES (?, ?, ?, ?)`;
+    const querygetID_ = `select id_user from Users where name = ? limit 1`;
+    try {
+        await db.query(query, [name, email, picture, isVerify]);
+        const [result]: any = await db.query(querygetID_, [name]);
+        return {success: true, userId: result[0].id_user}; 
+    } catch (err) {
+        console.error('Erro ao adicionar usuário:', err);
+        throw new Error('Erro ao criar usuário');
+    }
+}
+
+export { getDatadforlogin, AddINbase, getUserByEmail, addGoogleUser};

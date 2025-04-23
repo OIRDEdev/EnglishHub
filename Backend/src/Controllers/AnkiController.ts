@@ -39,7 +39,7 @@ export const updateCard = async (req: Request, res: Response): Promise<void> => 
     }
 }
 
-export const addsentencescontroller = async (req: Request, res: Response): Promise<boolean| void> => {
+export const addsentencescontroller = async (req: Request, res: Response): Promise<void> => {
     if (!req.user) {
         res.status(401).json({ error: "User not authenticated" });
         return;
@@ -52,11 +52,15 @@ export const addsentencescontroller = async (req: Request, res: Response): Promi
     try {
         const result: boolean = await addSentences(userid, sentence, bookid);
         if(result){
-            return true;
+            res.status(200).json({success: 'add in to add sentence'});
+            return;
         }
     }catch(error){
-        console.error("error no controller ankicontroller funcão addsentence");
+        console.error("error no controller ankicontroller funcão addsentence", error);
+        return;
     }
-    return false;
+    
+    res.status(404).json({error: 'cloud not put sentence in our DB, try again'});
+    return 
 }
 

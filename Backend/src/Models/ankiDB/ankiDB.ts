@@ -1,13 +1,15 @@
 import db from "../Database";
 import { RowDataPacket } from "mysql2";
 
-interface Sentences_db extends RowDataPacket{
+interface Sentences_db extends RowDataPacket {
     id_card: number;
-    expression : string;
+    expression: string;
     learning_rating: number;
     created_at: string;
+    book_id: number;
+    title: string;
+    cards_count_in_book: number;
 };
-
 interface Card_update extends RowDataPacket{
     user_id: number;
     id_card: number;
@@ -77,45 +79,70 @@ async function updateCardReview(sentence: string, isGood: boolean) {
     }
 }
 
-async function getAnkiSentences(userID: number): Promise<Sentences_db[] | null>{
-    const query = `SELECT id_card, word_or_expression AS expression, learning_rating, created_at 
-                   FROM Anki_Cards 
-                   WHERE user_id = ? limit 10`;
-
+async function getAnkiSentences(userID: number): Promise<Sentences_db[] | null> {
+    const query = `
+      SELECT 
+        ac.id_card,
+        ac.word_or_expression AS expression,
+        ac.learning_rating,
+        ac.created_at,
+        ac.book_id,
+        b.title,
+        (
+          SELECT COUNT(*) 
+          FROM Anki_Cards ac2 
+          WHERE ac2.book_id = ac.book_id AND ac2.user_id = ac.user_id
+        ) AS cards_count_in_book
+      FROM Anki_Cards ac
+      JOIN Books b ON ac.book_id = b.id_book
+      WHERE ac.user_id = ?
+      LIMIT 10
+    `;
+  
     try {
-        const [result] = await db.query<Sentences_db[]>(query, [userID]);
-
-        if (result.length === 0) {
-            return null;
-        }
-        return result;
-
+      const [result] = await db.query<Sentences_db[]>(query, [userID]);
+  
+      if (result.length === 0) {
+        return null;
+      }
+  
+      return result;
     } catch (error) {
-        console.error("Error fetching Anki sentences:", error);
-        throw new Error("Database query failed");
+      console.error("Error fetching Anki sentences:", error);
+      throw new Error("Database query failed");
     }
-}
+  }
+  
 
 
-async function addSentences(userID: number, sentence: string, bookId: number): Promise<boolean>{
+async function addSentences(userID: number, sentence: string, bookId: number): Promise<boolean> {
     if (!validateSentence(sentence)) {
         throw new Error("formato invalido");
     }
-    try{
-        await db.beginTransaction();
-        const currentDate : Date = new Date();
-        const formattedDate: string = formatDateForSQL(currentDate);
-        const query = `INSERT INTO Anki_cards (user_id, book_id, word_or_expression, learning_rating, review_date) 
-                        VALUES ( ?, ?, ?, ?, ?)`;
 
-        await db.query(query, [userID, bookId, sentence, 0, formattedDate]);
-        await db.commit();
-        return false;
-    }catch(error){
-        await db.rollback(); 
+    const connection = await db.getConnection(); // You must get a transactional connection
+    try {
+        await connection.beginTransaction();
+
+        const currentDate: Date = new Date();
+        const formattedDate: string = formatDateForSQL(currentDate);
+
+        const query = `
+            INSERT INTO Anki_Cards (user_id, book_id, word_or_expression, learning_rating, review_date) 
+            VALUES (?, ?, ?, ?, ?)`;
+
+        await connection.query(query, [userID, bookId, sentence, 0, formattedDate]);
+
+        await connection.commit();
+        return true;
+    } catch (error) {
+        await connection.rollback(); // rollback on the transactional connection
         console.error("Erro adicionando frase no anki", error);
-        throw error; 
+        throw error;
+    } finally {
+        connection.release(); // always release connection
     }
 }
+
 
 export { getAnkiSentences, updateCardReview, addSentences};

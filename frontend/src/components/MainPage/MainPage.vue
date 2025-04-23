@@ -1,123 +1,100 @@
 <template>
   <div class="page-container">
-    <!-- Hamburger Menu for Mobile -->
-    <button class="hamburger-menu" @click="toggleMobileMenu">
-      <i class="fas fa-bars"></i>
-    </button>
-
-    <!-- Sidebar -->
-    <div class="sidebar" :class="{ collapsed: isSidebarCollapsed }">
-      <div class="profile-section">
-        <div class="profile-pic">
-          <img :src="userProfilePic || '@/assets/default-avatar.png'" alt="Profile" />
-        </div>
-        <span class="username" v-if="!isSidebarCollapsed">{{ username }}</span>
-      </div>
-
-      <button class="toggle-sidebar" @click="toggleSidebar">
-        <i class="fas fa-chevron-left"></i>
-      </button>
-
-      <nav class="sidebar-menu">
-        <a href="#" class="menu-item">
-          <i class="fas fa-trophy"></i>
-          <span class="menu-text">Conquistas</span>
-        </a>
-        <a href="#" class="menu-item">
-          <i class="fas fa-users"></i>
-          <span class="menu-text">Amigos</span>
-        </a>
-        <a href="#" class="menu-item">
-          <i class="fas fa-layer-group"></i>
-          <span class="menu-text">Grupos</span>
-        </a>
-        <a href="#" class="menu-item">
-          <i class="fas fa-moon"></i>
-          <span class="menu-text">Modo Noturno</span>
-        </a>
-        <a href="#" class="menu-item">
-          <i class="fas fa-cog"></i>
-          <span class="menu-text">Configurações</span>
-        </a>
-        <a href="#" class="menu-item logout">
-          <i class="fas fa-sign-out-alt"></i>
-          <span class="menu-text">Sair</span>
-        </a>
-      </nav>
+    <!-- Menu lateral -->
+    <div class="sidebar">
+      <ul>
+        <li class="active">Stories</li>
+        <li>Games</li>
+        <li>Anki</li>
+        <li>Pronunciacion</li>
+      </ul>
     </div>
 
-    <!-- Main Content -->
-    <div class="main-content" :class="{ expanded: isSidebarCollapsed }">
-      <!-- Filter Section -->
-      <div class="filter-container">
-        <div class="level-filters">
-          <button 
-            v-for="level in levels" 
-            :key="level"
-            class="filter-button"
-            :class="{ active: currentLevel === level }"
-            @click="setLevel(level)"
-          >
-            Nível {{ level }}
-          </button>
-        </div>
-
-        <div class="category-filters">
-          <button 
-            v-for="category in categories" 
-            :key="category"
-            class="filter-button"
-            :class="{ active: currentCategory === category }"
-            @click="setCategory(category)"
-          >
-            {{ category }}
-          </button>
+    <!-- Conteúdo principal -->
+    <div class="main-content">
+      <!-- Cabeçalho -->
+      <div class="header">
+        <div class="user-profile">
+          <div class="user-level">Nível {{ userLevel }}</div>
+          <img :src="userProfilePic || '@/assets/default-avatar.png'" alt="Perfil" class="user-img">
+          <div class="settings-icon" @click="toggleSettings">⚙️</div>
         </div>
       </div>
 
-      <!-- Stories Grid -->
-      <div class="stories-grid">
-        <div v-for="story in filteredStories" :key="story.id" class="story-card">
-          <div class="story-image">
-            <img :src="coverImage" :alt="story.title" />
-          </div>
-          <div class="story-content">
-            <h3>{{ story.title }}</h3>
-            <span class="level-badge">Nível {{ story.level }}</span>
-            <p>{{ story.description }}</p>
-            <button class="book-button" @click="startReading(story)">
-              {{ story.buttonText }}
-            </button>
+      <!-- Filtros de nível -->
+      <div class="level-filters">
+        <button 
+          v-for="level in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" 
+          :key="level"
+          class="level-btn"
+          :class="{ active: currentLevel === level }"
+          @click="setLevel(level)"
+        >
+          {{ level }}
+        </button>
+      </div>
+
+      <!-- Carrossel de Cards -->
+      <div class="carousel-container">
+        <button class="carousel-btn prev-btn" @click="moveCarousel(-1)">❮</button>
+        <div class="carousel">
+          <div class="carousel-inner" :style="carouselStyle">
+            <div v-for="(story, index) in filteredStories" :key="index" class="card">
+              <div class="card-content" @click="startReading(story)">
+                <img :src="story.image || coverImage" :alt="story.title" class="card-img">
+                <div class="card-title">{{ story.title }}</div>
+                <div class="card-genre">{{ story.category }}</div>
+                <div class="card-level">Nível {{ story.level }}</div>
+                <div class="card-synopsis">{{ story.description }}</div>
+              </div>
+            </div>
           </div>
         </div>
+        <button class="carousel-btn next-btn" @click="moveCarousel(1)">❯</button>
       </div>
     </div>
+
+    <!-- Modal de configurações -->
+    <div class="settings-modal" :style="{ display: showSettings ? 'block' : 'none' }">
+      <h3>Configurações</h3>
+      <div class="settings-option">
+        <span>Modo escuro</span>
+        <input type="checkbox" id="darkMode">
+      </div>
+      <div class="settings-option">
+        <span>Notificações</span>
+        <input type="checkbox" id="notifications" checked>
+      </div>
+      <div class="settings-option">
+        <span>Som</span>
+        <input type="checkbox" id="sound" checked>
+      </div>
+    </div>
+
+    <div class="modal-backdrop" @click="toggleSettings" :style="{ display: showSettings ? 'block' : 'none' }"></div>
   </div>
 </template>
 
 <script>
-import { initializeAnimations } from './js/animation.js';
-import { gethistoriaData }  from '@/servicesJS/HistoriaHandle';
+import { gethistoriaData } from '@/servicesJS/HistoriaHandle';
+import { userstatedata } from '@/servicesJS/user.js';
+
 
 export default {
   data() {
     return {
       coverImage: "https://m.media-amazon.com/images/I/81Cg3q0W0ZL._UF894,1000_QL80_.jpg",
-      isSidebarCollapsed: false,
-      username: 'User Name',
-      userProfilePic: null,
-      currentLevel: 1,
-      currentCategory: 'Todos',
-      levels: [1, 2, 3, 50, 53],
-      categories: ['Todos', 'Ação', 'Aventura', 'Mistério'],
+      userLevel: 5,
+      username: '',
+      userProfilePic: '',
+      useremail: '',
+      currentLevel: 2,
+      currentPosition: 0,
+      showSettings: false,
       stories: []
     };
   },
   mounted: async function() {
-    const { toggleSidebar, toggleMobileMenu, initializeFilterAnimations } = initializeAnimations();
-    this.toggleSidebar = toggleSidebar;
-    this.toggleMobileMenu = toggleMobileMenu;
-    initializeFilterAnimations();
     await this.fetchBooks();
   },
   methods: {
@@ -132,25 +109,42 @@ export default {
     setLevel(level) {
       this.currentLevel = level;
     },
-    setCategory(category) {
-      this.currentCategory = category;
+    moveCarousel(direction) {
+      const totalStories = this.filteredStories.length;
+      const carousel = document.querySelector('.carousel-inner');
+      this.currentPosition += direction;
+      
+      if (this.currentPosition < 0) this.currentPosition = 0;
+      if (this.currentPosition > totalStories - 1) this.currentPosition = totalStories - 1;
+
+      carousel.style.transform = `translateX(-${this.currentPosition * this.cardWidth}px)`;
+    },
+    toggleSettings() {
+      this.showSettings = !this.showSettings;
     },
     startReading(story) {
       const formatedTitle = story.title.toLowerCase().replace(/ /g, '-');
       this.$router.push(`/historia/${story.level}/${formatedTitle}/${story.id}`);
-    },
+    }
   },
   computed: {
     filteredStories() {
       return this.stories.filter(story => {
-        const levelMatch = this.currentLevel === 'Todos' || story.level === this.currentLevel;
-        const categoryMatch = this.currentCategory === 'Todos' || story.category === this.currentCategory;
-        return levelMatch && categoryMatch;
+        return story.level === this.currentLevel;
       });
+    },
+    carouselStyle() {
+      const cardWidth = 320; // same as the width of the card in CSS
+      return `transform: translateX(-${this.currentPosition * cardWidth}px)`;
     }
+  },
+  created() {
+    const userState = userstatedata()
+    this.username = userState.username
+    this.userProfilePic = userState.avatar
+    this.useremail = userState.email
   }
 };
 </script>
 
-<style src="./css/style.css" scoped></style>
-<style src="./css/resposive.css" scoped></style>
+<style src="./css/style.css"></style>

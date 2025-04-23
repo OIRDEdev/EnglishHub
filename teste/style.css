@@ -1,0 +1,125 @@
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f2f5;
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+.container-geral {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+
+.convert-farenheit,
+.area-perimetro-Q,
+.area-perimetro-R,
+.horas-minuto,
+.media {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+}
+
+section:hover {
+    transform: translateY(-3px);
+}
+
+h3 {
+    color: #2c3e50;
+    margin: 0 0 20px 0;
+    font-size: 1.4em;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+}
+
+input[type="text"] {
+    padding: 12px;
+    margin: 8px 0;
+    border: 2px solid #bdc3c7;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+
+button {
+    background: #3498db;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+    width: 100%;
+    margin: 10px 0;
+}
+
+button:hover {
+    background: #2980b9;
+}
+
+.area-perimetro-R-btn { background: #27ae60; }
+.area-perimetro-R-btn:hover { background: #219a52; }
+
+.horas-minuto-btn { background: #e67e22; }
+.horas-minuto-btn:hover { background: #d35400; }
+
+.convert-farenheit-btn { background: #9b59b6; }
+.convert-farenheit-btn:hover { background: #8e44ad; }
+
+p {
+    color: #34495e;
+    margin: 15px 0 5px;
+    font-size: 16px;
+}
+
+span[id*="resposta"],
+span[class*="resposta"] {
+    font-weight: bold;
+    color: #2c3e50;
+    font-size: 1.1em;
+}
+
+.area-perimetro-R,
+.media {
+    display: flex;
+    flex-direction: column;
+}
+
+.area-perimetro-R input,
+.media input {
+    margin: 8px 0;
+}
+
+@media (max-width: 768px) {
+    .container-geral {
+        grid-template-columns: 1fr;
+    }
+    
+    section {
+        margin-bottom: 20px;
+    }
+    
+    input[type="text"] {
+        font-size: 14px;
+    }
+    
+    button {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+}

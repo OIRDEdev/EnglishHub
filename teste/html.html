@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alteração de temperatura</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <section class="container-geral">
+        <section class="convert-farenheit">
+            <h3>Celsius para farenheit</h3>
+            <input type="text" id="convert-farenheit-input" placeholder="Digite um número">
+            <button class="convert-farenheit-btn" onclick="TranformInFarenheit()">Converter</button>
+            <p>Temperatura em farenheit: <span id="resposta-farenheit"></span></p>
+        </section>
+
+        <section class="area-perimetro-Q">
+            <h3>Area e perimetro Quadrado</h3>
+            <input type="text" id="area-perimetro-Q-input" placeholder="Digite um número">
+            <button class="area-perimetro-Q-btn" onclick="AreaQuadrado()">Converter</button>
+            <p>Area do quadrado é: <span id="resposta-Q"></span></p>
+            <p>O perimetro é: <span id="resposta-Q-P"></span></p>
+        </section>
+
+        <section class="area-perimetro-R">
+            <h3>Area e perimetro retangulo</h3>
+            <input type="text" id="area-perimetro-R-input1" placeholder="Digite um número">
+            <input type="text" id="area-perimetro-R-input2" placeholder="Digite um número">
+            <button class="area-perimetro-R-btn" onclick="AreaRetangulo()">Converter</button>
+            <p>Area do retangulo é: <span class="resposta-R"></span></p>
+            <p>O perimetro é: <span class="resposta-R-P"></span></p>
+        </section>
+    
+        <section class="horas-minuto">
+            <h3>horas para minutos</h3>
+            <input type="text" id="horas-minuto-input" placeholder="Digite um número">
+            <button class="horas-minuto-btn" onclick="HorasParaMinutos()">Converter</button>
+            <p>Os minutos são: <span class="resposta-horas"></span></p>
+        </section>
+    
+        <section class="media">
+            <h3>media de quatro idades</h3>
+            <input type="text" id="media-input1" placeholder="Digite um número">
+            <input type="text" id="media-input2" placeholder="Digite um número">
+            <input type="text" id="media-input3" placeholder="Digite um número">
+            <input type="text" id="media-input4" placeholder="Digite um número">
+            <button class="convert-farenheit-btn" onclick="CalcularMedia()">Converter</button>
+            <p>A media é: <span class="resposta-media"></span></p>
+        </section>
+
+        
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>

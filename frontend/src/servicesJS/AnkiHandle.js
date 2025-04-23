@@ -46,7 +46,17 @@ async function addsentencesFrontfunction(sentence, bookid){
     }
 }
 
+async function getDecks(deckId) {
+    const Iddecks = {
+        deckId: deckId
+    };
+    try {
+        const response = await axios.get(`/api/anki/decks/${Iddecks}`);
+        return response.data;
+    } catch (error) {
+        console.error("error ao buscar decks: ", error);
+        throw new Error("Error ao buscar os decks");
+    }
+}
 
-
-
-export { Getsentences, updateReviewCards, addsentencesFrontfunction};
+export { Getsentences, updateReviewCards, addsentencesFrontfunction, getDecks };

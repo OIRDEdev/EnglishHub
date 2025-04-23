@@ -123,15 +123,24 @@
   .forgot-password:hover {
     color: #4b6cb7;
   }
+
+  .alternative-login {
+    margin-top: 20px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+  }
   
   .signup-prompt {
     text-align: center;
     margin-top: 30px;
+    margin-bottom: 15px;
   }
   
   .signup-prompt p {
     color: #666;
     margin-bottom: 10px;
+
   }
   
   .signup-btn {
